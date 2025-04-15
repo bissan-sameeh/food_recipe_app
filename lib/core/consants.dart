@@ -1,0 +1,4 @@
+enum Recipe {
+  Ingredient, //
+  Instructions,
+}
