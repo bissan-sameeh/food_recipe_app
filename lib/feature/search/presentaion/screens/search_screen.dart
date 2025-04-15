@@ -77,13 +77,14 @@ class _SearchScreenState extends State<SearchScreen> {
             onSubmitted:(value) {
               final query = value.trim();
               if (query.isNotEmpty) {
+                setState(() => isSearching = true);
                 context.read<SearchBloc>().add(SearchByCategoryEvent(category: query));
               }
             } ,
               textInputType: TextInputType.text,
 
             onChanged: (text) {
-              _search(text);
+              // _search(text);
             } ),
           //HERE All Categories and if search about an category the result will returned model class
           Padding(
