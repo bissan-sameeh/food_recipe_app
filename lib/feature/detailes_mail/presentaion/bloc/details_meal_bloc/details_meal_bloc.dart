@@ -12,7 +12,7 @@ part 'details_meal_state.dart';
 
 class DetailsMealBloc extends Bloc<DetailsMealEvent, DetailsMealState> {
   GetMealsDetailsUseCase getMealsDetailsUseCase;
-  DetailsMealBloc({required this.getMealsDetailsUseCase}) : super(DetailsMealInitial()) {
+  DetailsMealBloc({required this.getMealsDetailsUseCase}) : super(DetailMealInitial()) {
     on<DetailsMealEvent>((event, emit) async {
      if(event is GetMealsDetailsEvent){
        emit(DetailMealLoadingState());

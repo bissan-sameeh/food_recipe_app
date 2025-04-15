@@ -7,16 +7,17 @@ import 'package:food_recipe/feature/random/presentaion/widgets/ingradients_widge
 import '../../../../../core/styles/colors_manager.dart';
 import '../../../../../core/styles/styles.dart';
 import '../../../../../core/widgets/container_image.dart';
-import '../../../../../core/widgets/btn_widget.dart';
+import '../../../../../core/widgets/favorite_widget.dart';
 
 
 class RecipeItem extends StatelessWidget with ImageHelper {
   const RecipeItem({super.key, required this.mealModel,    this.widthContainer = 200,
-    this.heightContainer = 128, this.isSearchScreen=false});
+    this.heightContainer = 128, this.isSearchScreen=false, this.onTap});
   final MealModel mealModel;
   final double? widthContainer;
   final double? heightContainer;
   final bool? isSearchScreen;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +41,7 @@ class RecipeItem extends StatelessWidget with ImageHelper {
               ,if(isSearchScreen !=true) const PositionedDirectional(
                   top: 8,
                   end: 8,
-                  child: BtnWidget()
+                  child: FavoriteWidget(mealId: '',)
               ),
             ],
           ),

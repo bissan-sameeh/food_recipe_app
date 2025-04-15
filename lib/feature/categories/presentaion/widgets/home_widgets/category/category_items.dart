@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_recipe/core/widgets/loading_widget.dart';
 import 'package:food_recipe/feature/categories/presentaion/widgets/home_widgets/category/success_category_list.dart';
 
+import '../../../../../../core/shimmer/home_shimmer/category_loading.dart';
 import '../../../../../../core/widgets/custom_error_widget.dart';
 import '../../../../../../core/widgets/custom_list_tile.dart';
 import '../../../bloc/category_bloc/category_bloc.dart';

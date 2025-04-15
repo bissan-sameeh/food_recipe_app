@@ -13,7 +13,7 @@ class MyTexField extends StatefulWidget {
       this.filled = false,
       this.isPrefix = true,
       this.onChanged,
-      this.textInputType = TextInputType.text});
+      this.textInputType = TextInputType.text, this.onSubmitted, this.textInputAction=TextInputAction.done});
   final TextEditingController textEditingController;
   final String hint;
   final Color? textColor;
@@ -21,6 +21,9 @@ class MyTexField extends StatefulWidget {
   final bool isPrefix;
   final TextInputType? textInputType;
   final Function(String)? onChanged;
+  final void Function(String)? onSubmitted  ;
+  final TextInputAction? textInputAction;
+
   @override
   State<MyTexField> createState() => _MyTextFieldState();
 }
@@ -30,9 +33,20 @@ class _MyTextFieldState extends State<MyTexField> with ImageHelper{
   Widget build(BuildContext context) {
     return TextField(
       keyboardType: widget.textInputType,
+       // autocorrect: true,
+       textInputAction: widget.textInputAction,
+
+       // autofocus: true,
+
+
       controller: widget.textEditingController,
+
       onChanged: widget.onChanged,
-      decoration: InputDecoration(
+      onSubmitted: widget.onSubmitted,
+      decoration: InputDecoration
+        (
+
+
 
         hintText: widget.hint,
         prefixIconConstraints: const BoxConstraints(),

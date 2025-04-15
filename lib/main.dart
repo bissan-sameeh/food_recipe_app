@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_recipe/core/styles/theme_manager.dart';
 import 'package:food_recipe/feature/auth/presentaion/screens/main_screen.dart';
 import 'package:food_recipe/feature/categories/presentaion/bloc/category_bloc/category_bloc.dart';
+import 'package:food_recipe/feature/detailes_mail/presentaion/bloc/cubit/favorite_cubit.dart';
 import 'package:food_recipe/feature/detailes_mail/presentaion/bloc/details_meal_bloc/details_meal_bloc.dart';
 import 'package:food_recipe/feature/detailes_mail/presentaion/screens/show_meal_details_screen.dart';
 import 'package:food_recipe/feature/ingradients/presentaion/bloc/ingredient/ingredient_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:hive_flutter/adapters.dart';
 
 import 'core/routers/route_helper.dart';
 import 'core/routers/routes.dart';
+import 'feature/auth/presentaion/screens/splash_screen.dart';
 import 'feature/categories/data/models/category_model_adapter.dart';
 import 'dependancy_injection.dart' as di;
 import 'feature/detailes_mail/data/models/favorite_meal_adapter.dart';
@@ -57,20 +59,23 @@ class MyApp extends StatelessWidget {
               ..add(GetRandomEvent())
           ),
           BlocProvider(
-            create: (context) => di.sl<DetailsMealBloc>()..add(const GetMealsDetailsEvent(mealId: '52772'))
-          ),
+            create: (context) => di.sl<DetailsMealBloc>()),
+
           BlocProvider(
             create: (context) => di.sl<IngredientBloc>()
           ),
           BlocProvider(
             create: (context) => di.sl<IngredientReaderCubit>(),
           ),
+          BlocProvider(
+            create: (context) => di.sl<FavoriteCubit>()..loadFavorites(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeManager.getThemeData(),
           onGenerateRoute: generateRoute,
-          home: const MainScreen(),
+          home: const SplashScreen(),
           routes: {
             Routes.detailsMeal: (context) => const ShowMealDetailsScreen(),
           },

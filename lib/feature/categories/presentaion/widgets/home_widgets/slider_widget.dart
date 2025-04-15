@@ -41,15 +41,19 @@ class SliderWidget extends StatelessWidget with ImageHelper {
                            .colorScheme
                            .secondary),
                    child: Stack(
+                     fit: StackFit.loose,
+                     clipBehavior: Clip.antiAlias,
                      children: [
                        PositionedDirectional(
-                           end: -30,
+                           end: -50,
                            top: -25,
                            child: fancyShimmer(
                              imagePath:
                              state.categories[index].strCategoryThumb ?? '',
-                             height: 150.h,
-                             width: 150.w,
+                             height: 140.h,
+                             width: 140.w,
+                             boxFit: BoxFit.contain
+
                            )),
                        Positioned(
                          bottom: 8,

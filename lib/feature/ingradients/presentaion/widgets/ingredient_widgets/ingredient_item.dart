@@ -4,7 +4,7 @@ import 'package:food_recipe/feature/detailes_mail/presentaion/widgets/elevated_b
 
 import '../../../../../core/styles/colors_manager.dart';
 import '../../../../../core/styles/styles.dart';
-import '../../../../../core/widgets/btn_widget.dart';
+import '../../../../../core/widgets/favorite_widget.dart';
 
 class IngredientItem extends StatelessWidget {
   const IngredientItem({super.key,required this.strIngredient, required this.idIngredient});

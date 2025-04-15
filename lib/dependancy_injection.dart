@@ -9,6 +9,11 @@ import 'package:food_recipe/feature/categories/domain/use_cases/list_all_categor
 import 'package:food_recipe/feature/categories/presentaion/bloc/category_bloc/category_bloc.dart';
 import 'package:food_recipe/feature/detailes_mail/data/data_sources/details_meals_remote_data_source.dart';
 import 'package:food_recipe/feature/detailes_mail/domain/repoistory/details_meal_repository.dart';
+import 'package:food_recipe/feature/detailes_mail/domain/use_cases/add_to_favorite_use_case.dart';
+import 'package:food_recipe/feature/detailes_mail/domain/use_cases/delete_favorite_use_case.dart';
+import 'package:food_recipe/feature/detailes_mail/domain/use_cases/get_favorites_use_case.dart';
+import 'package:food_recipe/feature/detailes_mail/domain/use_cases/is_favorites_use_case.dart';
+import 'package:food_recipe/feature/detailes_mail/presentaion/bloc/cubit/favorite_cubit.dart';
 import 'package:food_recipe/feature/detailes_mail/presentaion/bloc/details_meal_bloc/details_meal_bloc.dart';
 import 'package:food_recipe/feature/ingradients/data/data_sources/ingredients_remote_data_source.dart';
 import 'package:food_recipe/feature/ingradients/data/repositories/ingredient_repository.dart';
@@ -31,6 +36,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'core/api_helper/api_consumer.dart';
 import 'core/api_helper/dio_consumer.dart';
 import 'feature/categories/data/data_sources/category_local_data_source.dart';
+import 'feature/detailes_mail/data/data_sources/details_local_data_scource.dart';
 import 'feature/detailes_mail/data/repositories/details_meal_repository.dart';
 import 'feature/detailes_mail/domain/use_cases/get_meals_details_use_case.dart';
 import 'feature/ingradients/presentaion/cubit/ingredient_reader/ingredient_reader_cubit.dart';
@@ -47,8 +53,9 @@ Future<void> init() async {
   sl.registerFactory(() => SearchBloc(searchByCategoryUseCase: sl.call(), searchByAreaUseCase: sl.call()));
   sl.registerFactory(() => RandomBloc(randomUseCase: sl.call(), randomUseCase2: sl.call(), randomUseCase3: sl.call()));
   sl.registerFactory(() => DetailsMealBloc(getMealsDetailsUseCase: sl.call()));
-  sl.registerFactory(() => IngredientBloc(getAllCategoriesUseCase: sl.call()));
+  sl.registerFactory(() => IngredientBloc(getIngredientsUseCase: sl.call()));
   sl.registerFactory(() => IngredientReaderCubit());
+  sl.registerFactory(() => FavoriteCubit(addToFavoritesUseCase: sl.call(), getFavoritesUseCase:  sl.call(), deleteFavoriteUseCase:  sl.call(), isFavoritesUseCase:  sl.call()));
 
   // use case
   sl.registerLazySingleton(() => GetAllCategoriesUseCase(repository: sl.call()));
@@ -58,13 +65,18 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RandomUseCase(repository: sl.call()),);
   sl.registerLazySingleton(() => GetMealsDetailsUseCase(repository: sl.call()),);
   sl.registerLazySingleton(() => GetIngredientsUseCase(repository: sl.call()),);
+
+  sl.registerLazySingleton(() => AddToFavoritesUseCase(repository: sl.call()),);
+  sl.registerLazySingleton(() => DeleteFavoriteUseCase(repository: sl.call()),);
+  sl.registerLazySingleton(() => GetFavoritesUseCase(repository: sl.call()),);
+  sl.registerLazySingleton(() => IsFavoritesUseCase(repository: sl.call()),);
   // repository
 
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImp(
     remoteDataSource: sl.call(),
     categoryLocalDataSource: sl.call(),
     networkInfo: sl.call(),
-    box: sl.call(),
+    box: sl<Box>(instanceName: 'categoryBox'),
   ));
   sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImp(searchRemoteDataSource: sl.call(), networkInfo: sl.call()));
   sl.registerLazySingleton<RandomRepository>(() => RandomRepositoryImp(randomRemoteDataSource: sl.call(), networkInfo: sl.call() ));
@@ -74,13 +86,16 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryRemoteDataSource>(
           () => CategoryRemoteDataSourceImp(api: sl.call()));
   sl.registerLazySingleton<CategoryLocalDataSource>(
-          () => CategoryLocalDataSourceImp(box: sl.call()));
+          () => CategoryLocalDataSourceImp( box: sl<Box>(instanceName: 'categoryBox')));
   sl.registerLazySingleton<SearchRemoteDataSource>(
           () => SearchRemoteDataSourceImp(api: sl.call()));
   sl.registerLazySingleton<RandomRemoteDataSource>(
           () => RandomRemoteDataSourceImp(api: sl.call()));
   sl.registerLazySingleton<DetailsMealsRemoteDataSource>(
           () => DetailsMealsRemoteDataSourceImp(api: sl.call()));
+  sl.registerLazySingleton<FavoriteLocalDataSource>(
+          () => FavoriteLocalDataSourceImp(box: sl<Box>(instanceName: 'favList'),
+  ));
   sl.registerLazySingleton<IngredientsRemoteDataSource>(
           () => IngredientsRemoteDataSourceImp(api: sl.call()));
   // cores
@@ -88,7 +103,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: sl.call()));
 
   final categoryBox = await Hive.openBox(HiveConstants.categoryBox);
-  sl.registerLazySingleton(() => categoryBox);
+  final favList = await Hive.openBox(HiveConstants.favoriteList);
+  sl.registerLazySingleton(() => categoryBox,instanceName: 'categoryBox');
+  sl.registerLazySingleton(() => favList,instanceName: 'favList');
   // external
   sl.registerLazySingleton(() => InternetConnectionChecker.instance);
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

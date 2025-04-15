@@ -46,6 +46,10 @@ class _ShowMealDetailsScreenState extends State<ShowMealDetailsScreen> with Imag
       body: BlocBuilder<DetailsMealBloc, DetailsMealState>(
         builder: (context, state) {
       if(state is DetailMealSuccessState) {
+        final meal=state.meals;
+        if(meal!.isEmpty ){
+          return const Center(child: Text("No data!"));
+        }
         return DetailsWidgets(meal: state.meals );
       }
       else if(state is DetailMealFailedState){

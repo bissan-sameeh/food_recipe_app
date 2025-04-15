@@ -20,7 +20,7 @@ class FavoriteLocalDataSourceImp implements FavoriteLocalDataSource{
   Future<Unit> addToFavorites(FavoriteMealModel meal) async {
     try {
       List<FavoriteMealModel> list=_getList();
-      list.add(FavoriteMealModel(id: meal.id, name: meal.name, image: meal.image));
+      list.add(meal);
 
       await box.put(HiveConstants.favoriteList, list);
       return Future.value(unit);
@@ -46,7 +46,7 @@ class FavoriteLocalDataSourceImp implements FavoriteLocalDataSource{
   Future<bool> isFavorite(String id) async {
     try {
       List<FavoriteMealModel> list=_getList();
-      bool isContain=list.contains(id);
+      bool isContain = list.any((meal) => meal.id == id);
       return isContain;
     } catch (e) {
       throw CacheException();
@@ -55,8 +55,9 @@ class FavoriteLocalDataSourceImp implements FavoriteLocalDataSource{
   @override
   Future<Unit> removeFromFavorite(FavoriteMealModel meal) async {
     try {
-
-      await box.delete(meal.id);
+      List<FavoriteMealModel> list = _getList();
+      list.removeWhere((element) => element.id == meal.id);
+      await box.put(HiveConstants.favoriteList, list);
       return Future.value(unit);
     } catch (e) {
       throw CacheException();

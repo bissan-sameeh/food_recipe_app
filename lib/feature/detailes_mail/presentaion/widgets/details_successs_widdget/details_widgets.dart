@@ -3,17 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_recipe/core/helper/image_helper.dart';
 import 'package:food_recipe/core/models/meal_model/meal_model.dart';
+import 'package:food_recipe/core/routers/router.dart';
 import 'package:food_recipe/core/styles/colors_manager.dart';
+import 'package:food_recipe/core/widgets/btn_widget.dart';
 
 import '../../../../../core/consants.dart';
 import '../../../../../core/styles/styles.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
-import '../../../../../core/widgets/btn_widget.dart';
+import '../../../../../core/widgets/favorite_widget.dart';
 import '../../../../ingradients/presentaion/cubit/ingredient_reader/ingredient_reader_cubit.dart';
 import '../../../../ingradients/presentaion/widgets/ingredient_widgets/ingredient_instruction_btn.dart';
 import '../../../../ingradients/presentaion/widgets/ingredient_widgets/ingredient_widget.dart';
 import '../../../../random/presentaion/widgets/recipe/recipe_widget.dart';
 import '../../../domain/entity/details_entity.dart';
+import '../../bloc/cubit/favorite_cubit.dart';
 import '../chip_container_widget.dart';
 import '../details_list.dart';
 import '../sub_title_widget.dart';
@@ -57,17 +60,23 @@ class DetailsWidgets extends StatelessWidget with ImageHelper {
                   ])
 
           ),),
-        const PositionedDirectional(
+         PositionedDirectional(
           top: 30,
           start: 16,
           child: BtnWidget(
             path: 'close',
+            onTap: () => NavigationRoutes().pop(context),
           ),
         ),
-        const PositionedDirectional(
+         PositionedDirectional(
           top: 30,
           end: 16,
-          child: BtnWidget(),
+          child: FavoriteWidget(
+            onTap: () {
+              context.read<FavoriteCubit>().toggleFavorite(mealItem);
+            }, mealId: mealItem.id
+
+          ),
         ),
         PositionedDirectional(
           end: 0,

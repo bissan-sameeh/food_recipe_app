@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_recipe/core/widgets/btn_widget.dart';
 
 import '../../../../../core/styles/colors_manager.dart';
 import '../../../../../core/styles/styles.dart';
 import '../../../../../core/widgets/container_image.dart';
-import '../../../../../core/widgets/btn_widget.dart';
+import '../../../../../core/widgets/favorite_widget.dart';
 
 class EditorItem extends StatelessWidget {
   const EditorItem({super.key, required this.imagePath, required this.strMeal});

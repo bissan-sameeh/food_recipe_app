@@ -48,7 +48,7 @@ class DetailsMealRepositoryImp implements DetailsMealRepository {
   @override
   Future<Either<Failure, Unit>> addToFavorites({required FavoriteMealModel meal}) async {
     try {
-      final model = FavoriteMealModel(id: meal.id, name: meal.name, image: meal.image);
+      final model = FavoriteMealModel(id: meal.id, strMeal: meal.strMeal, strMealThumb: meal.strMealThumb);
       await favoriteLocalDataSource.addToFavorites(model);
       return right(unit);
     } on CacheException {

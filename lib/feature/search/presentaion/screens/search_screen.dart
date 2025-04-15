@@ -25,34 +25,31 @@ class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController searchController;
   late Debouncer debouncer;
   bool isSearching = false;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchController = TextEditingController();
     debouncer = Debouncer(delay: const Duration(milliseconds: 500));
-    searchController.addListener(() {
-      final text = searchController.text.trim();
-      debouncer.call(() {
-        final wasSearching = isSearching; //false //again=> true
-        setState(() =>
-          isSearching = text.isNotEmpty //true (Seafood) => if empty => false يعني مسحنا
-        );
-
-        if (isSearching) { //true
-          context.read<SearchBloc>().add(SearchByCategoryEvent(category: text));
-        } else if (wasSearching && text.isEmpty) { // مسحنا والنص فاضي وفش حاجة جديدة ابحث عنها :
-          context.read<CategoryBloc>().add(GetListCategoriesEvent());
-        }
-      });
-    });
-
     context.read<RandomBloc>().add(GetRandomEvent());
-
-
-
   }
+
+ _search(String text){
+   debouncer.call(() {
+     final query = text.trim();
+     final wasSearching = isSearching;
+
+     if (query.isNotEmpty) {
+       if (!isSearching) {
+         setState(() => isSearching = true);
+       }
+       context.read<SearchBloc>().add(SearchByCategoryEvent(category: query));
+     } else if (wasSearching && query.isEmpty) {
+       setState(() => isSearching = false);
+       context.read<CategoryBloc>().add(GetListCategoriesEvent());
+     }
+   });
+
+ }
 
   @override
   void dispose() {
@@ -77,7 +74,16 @@ class _SearchScreenState extends State<SearchScreen> {
             textEditingController: searchController,
             hint: 'Search',
             isPrefix: true,
+            onSubmitted:(value) {
+              final query = value.trim();
+              if (query.isNotEmpty) {
+                context.read<SearchBloc>().add(SearchByCategoryEvent(category: query));
+              }
+            } ,
+              textInputType: TextInputType.text,
+
             onChanged: (text) {
+              _search(text);
             } ),
           //HERE All Categories and if search about an category the result will returned model class
           Padding(

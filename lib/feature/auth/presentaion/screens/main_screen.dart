@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe/core/styles/colors_manager.dart';
 import 'package:food_recipe/feature/auth/presentaion/screens/notification_screen.dart';
-import 'package:food_recipe/feature/auth/presentaion/screens/profile_screen.dart';
 
 import '../../../../core/helper/image_helper.dart';
 import '../../../categories/presentaion/screens/home_screen.dart';
-import '../../../detailes_mail/presentaion/screens/show_meal_details_screen.dart';
+import '../../../detailes_mail/presentaion/screens/profile_screen.dart';
 import '../../../search/presentaion/screens/search_screen.dart';
 
 

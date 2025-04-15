@@ -10,15 +10,15 @@ class FavoriteMealModelAdapter extends TypeAdapter<FavoriteMealModel> {
   FavoriteMealModel read(BinaryReader reader) {
     return FavoriteMealModel(
       id: reader.readString(),
-      name: reader.readString(),
-      image: reader.readString(),
+      strMeal: reader.readString(),
+      strMealThumb: reader.readString(),
     );
   }
 
   @override
   void write(BinaryWriter writer, FavoriteMealModel obj) {
     writer.writeString(obj.id);
-    writer.writeString(obj.name);
-    writer.writeString(obj.image);
+    writer.writeString(obj.strMeal);
+    writer.writeString(obj.strMealThumb);
   }
 }

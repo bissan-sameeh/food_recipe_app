@@ -12,12 +12,12 @@ part 'ingredient_event.dart';
 part 'ingredient_state.dart';
 
 class IngredientBloc extends Bloc<IngredientEvent, IngredientState> {
-    final GetIngredientsUseCase getAllCategoriesUseCase;
-  IngredientBloc({required this.getAllCategoriesUseCase}) : super(IngredientInitial()) {
+    final GetIngredientsUseCase getIngredientsUseCase;
+  IngredientBloc({required this.getIngredientsUseCase}) : super(IngredientInitial()) {
     on<IngredientEvent>((event, emit) async {
       if(event is GetIngredientEvent) {
         emit(IngredientLoadingState());
-        final failureOrIngredients = await getAllCategoriesUseCase.call();
+        final failureOrIngredients = await getIngredientsUseCase.call();
         emit(_mapFailureOIngredientToState(failureOrIngredients));
       }  });
   }

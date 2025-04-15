@@ -43,13 +43,13 @@ mixin ImageHelper {
   }
 
   Widget fancyShimmer({
-    required String imagePath,double width=40,double height=40
+    required String imagePath,double width=40,double height=40,BoxFit boxFit=BoxFit.cover
   }){
     return  FancyShimmerImage(
         shimmerBaseColor: Colors.grey.shade400,
         shimmerHighlightColor: Colors.grey.shade50,
         imageUrl: imagePath ,width: width.w,
-        boxFit: BoxFit.cover,
+        boxFit: boxFit,
         height: width.h,
         errorWidget: const Icon(Icons.close,color: Colors.redAccent,)
     );

@@ -1,20 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_recipe/core/helper/image_helper.dart';
-import 'package:food_recipe/core/styles/colors_manager.dart';
 
-class BtnWidget extends StatelessWidget with ImageHelper{
-  const BtnWidget({super.key,  this.path='favorite',  this.iconColor,  this.backgroundColor, this.onTap});
+import '../styles/colors_manager.dart';
+
+class BtnWidget extends StatelessWidget with ImageHelper {
+  const BtnWidget({super.key, required this.path, this.iconColor, this.backgroundColor, this.onTap});
+
   final String path;
   final Color? iconColor;
   final Color? backgroundColor;
   final Function () ? onTap;
 
-
-
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return        InkWell(
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(
             vertical: 5.6.h, horizontal: 5.6.w),
@@ -25,11 +27,12 @@ class BtnWidget extends StatelessWidget with ImageHelper{
           BorderRadiusDirectional.circular(8.r),
         ),
         child: appSvgImage(
-            path: path,
-            color: iconColor?? ColorsManager.black,
+            path: path  ,
+            color: iconColor ?? ColorsManager.black,
             width: 17,
             height: 17),
       ),
     );
+    ;
   }
 }

@@ -12,32 +12,32 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-    SearchByCategoryUseCase searchByCategoryUseCase;
-    SearchByAreaUseCase searchByAreaUseCase;
+  SearchByCategoryUseCase searchByCategoryUseCase;
+  SearchByAreaUseCase searchByAreaUseCase;
   SearchBloc({required this.searchByAreaUseCase,required this.searchByCategoryUseCase}) : super(SearchInitial()) {
 
     on<SearchEvent>((event, emit) async {
-    if(event is SearchByCategoryEvent){
-      emit(SearchLoadingState());
-      final mealsList=await searchByCategoryUseCase.call(category: event.category);
-      print("meals list ${right(mealsList)}");
-      emit( _mapFailureOrMealsToState(mealsList));
-    }else if(event is SearchByAreaEvent){
-      emit(SearchLoadingState());
-      final mealsOfList=await searchByAreaUseCase.call(areaName: event.area);
-      print("meals list ${right(mealsOfList)}");
-      emit( _mapFailureOrMealsToState(mealsOfList));
-    }
+      if(event is SearchByCategoryEvent){
+        emit(SearchLoadingState());
+        final mealsList=await searchByCategoryUseCase.call(category: event.category);
+        print("meals list ${right(mealsList)}");
+        emit( _mapFailureOrMealsToState(mealsList));
+      }else if(event is SearchByAreaEvent){
+        emit(SearchLoadingState());
+        final mealsOfList=await searchByAreaUseCase.call(areaName: event.area);
+        print("meals list ${right(mealsOfList)}");
+        emit( _mapFailureOrMealsToState(mealsOfList));
+      }
     });
 
 
-}
-    SearchState  _mapFailureOrMealsToState(
-        Either<Failure, List<MealModel>?> either) {
-      return either.fold(
-              (failure) => SearchFailedState(message: (failure.message)),
-              (meals) => (SearchSuccessState( meals: meals)));
-    }
+  }
+  SearchState  _mapFailureOrMealsToState(
+      Either<Failure, List<MealModel>?> either) {
+    return either.fold(
+            (failure) => SearchFailedState(message: (failure.message)),
+            (meals) => (SearchSuccessState( meals: meals)));
+  }
 
 
 }

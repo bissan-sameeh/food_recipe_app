@@ -6,8 +6,7 @@ abstract class DetailsMealState extends Equatable {
   List<Object> get props => [];
 }
 
-final class DetailsMealInitial extends DetailsMealState {
-}
+
 
 
 
