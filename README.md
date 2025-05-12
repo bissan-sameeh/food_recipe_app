@@ -2,7 +2,7 @@
 
 A beautifully designed Flutter app for discovering and saving food recipes — built during my internship at **PITS المحترفون**, using Clean Architecture and Flutter best practices.
 
-!![Mockup](food_mockup.png)<!-- Replace with actual mockup file name -->
+!![Mockup](food-mockup.png)<!-- Replace with actual mockup file name -->
 
 🔗 [View LinkedIn Post](https://www.linkedin.com/feed/update/urn:li:activity:7325829081625706496/)  
 🔗 [Live Demo / GitHub Project](https://lnkd.in/dNFvXNt5)
